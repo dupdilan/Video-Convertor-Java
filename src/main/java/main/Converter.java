@@ -9,20 +9,11 @@ import java.io.File;
 
 public class Converter {
 
-    public static void main(String[] args){
-
-        BasicConfigurator.configure();
-        Converter convert = new Converter();
-        convert.mp4TOmp3();
-
-    }
-
-
-    public void mp4TOmp3(){
+    public void mp4TOmp3(String name){
 
         try {
-            File source = new File("C:\\Users\\dupdilan\\Desktop\\media\\mp4Tomp3\\TensorFlow.js Quick Start.mp4");
-            File target = new File("C:\\Users\\dupdilan\\Desktop\\media-converted\\mp4Tomp3-converted\\abc.mp3");
+            File source = new File("D:\\media\\mp4Tomp3\\"+name);
+            File target = new File("D:\\media-converted\\mp4Tomp3-converted\\"+name+".mp3");
 
             //Audio Attributes
             AudioAttributes audio = new AudioAttributes();
