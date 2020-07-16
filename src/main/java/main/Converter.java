@@ -12,8 +12,6 @@ public class Converter {
     public static void main(String[] args){
 
         BasicConfigurator.configure();
-
-        BasicConfigurator.configure();
         Converter convert = new Converter();
         convert.mp4TOmp3();
 
@@ -23,8 +21,8 @@ public class Converter {
     public void mp4TOmp3(){
 
         try {
-            File source = new File("C:\\Users\\dupdilan\\Desktop\\media");
-            File target = new File("C:\\Users\\dupdilan\\Desktop\\media-converted");
+            File source = new File("C:\\Users\\dupdilan\\Desktop\\media\\mp4Tomp3\\TensorFlow.js Quick Start.mp4");
+            File target = new File("C:\\Users\\dupdilan\\Desktop\\media-converted\\mp4Tomp3-converted\\abc.mp3");
 
             //Audio Attributes
             AudioAttributes audio = new AudioAttributes();
