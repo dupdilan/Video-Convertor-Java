@@ -31,6 +31,18 @@ public class FileListner {
             }
         };
 
+        Runnable thread2 = () -> {
+            try {
+                check_mp4TOflv();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+<<<<<<< HEAD
+
+
 
         Runnable thread3 = () -> {
             try {
@@ -48,10 +60,16 @@ public class FileListner {
         Thread th1 = new Thread(thread1);
         th1.start();
 
-
-
-
+=======
+>>>>>>> 0db12efca9c28cfa42cab90599395c5d6fb0bd30
+        Thread t2 = new Thread(thread2);
+        t2.start();
     }
+
+
+
+
+
 
 
 
@@ -120,6 +138,79 @@ public class FileListner {
 
                     } else {
                         System.out.println("File  : " + fileName+" is a not supported. File type is not mp4");
+                    }
+
+                }
+            }
+            valid = watchKey.reset();
+
+        } while (valid);
+
+    }
+
+    //mp4toflv
+    //checks wheather new mp4 is added to mp4TOflv file
+    public void check_mp4TOflv() throws IOException, InterruptedException {
+
+        Path faxFolder = Paths.get("D:\\media\\mp4Toflv");
+        WatchService watchService = FileSystems.getDefault().newWatchService();
+        faxFolder.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+
+        boolean valid = true;
+        do {
+            WatchKey watchKey = watchService.take();
+
+            for (WatchEvent event : watchKey.pollEvents()) {
+                WatchEvent.Kind kind = event.kind();
+                if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())) {
+                    String fileName = event.context().toString();
+
+                    //if the newly added file extension is .mp4 encode() is called
+                    if ( fileName.toString().endsWith(".mp4")){
+                        System.out.println("New File Added : " + fileName);
+
+                        Converter flv =new Converter();
+                        flv.mp4Toflv(fileName);
+
+                    } else {
+                        System.out.println("File created in valid : " + fileName+" is a not supported file format");
+                    }
+
+                }
+            }
+            valid = watchKey.reset();
+
+        } while (valid);
+
+    }
+
+
+    //mp4toflv
+    //checks wheather new mp4 is added to mp4TOflv file
+    public void check_mp4TOflv() throws IOException, InterruptedException {
+
+        Path faxFolder = Paths.get("D:\\media\\mp4Toflv");
+        WatchService watchService = FileSystems.getDefault().newWatchService();
+        faxFolder.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+
+        boolean valid = true;
+        do {
+            WatchKey watchKey = watchService.take();
+
+            for (WatchEvent event : watchKey.pollEvents()) {
+                WatchEvent.Kind kind = event.kind();
+                if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())) {
+                    String fileName = event.context().toString();
+
+                    //if the newly added file extension is .mp4 encode() is called
+                    if ( fileName.toString().endsWith(".mp4")){
+                        System.out.println("New File Added : " + fileName);
+
+                        Converter flv =new Converter();
+                        flv.mp4Toflv(fileName);
+
+                    } else {
+                        System.out.println("File created in valid : " + fileName+" is a not supported file format");
                     }
 
                 }
