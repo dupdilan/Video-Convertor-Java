@@ -32,7 +32,7 @@ public class FileListner {
         };
 
 
-        Runnable thread2 = () -> {
+        Runnable thread3 = () -> {
             try {
                 check_Mp4();
             } catch (IOException e) {
@@ -42,8 +42,8 @@ public class FileListner {
             }
         };
 
-        Thread t2 = new Thread(thread2);
-        t2.start();
+        Thread t3 = new Thread(thread3);
+        t3.start();
 
         Thread th1 = new Thread(thread1);
         th1.start();
