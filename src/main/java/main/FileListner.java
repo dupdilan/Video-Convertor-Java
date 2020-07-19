@@ -10,9 +10,12 @@ public class FileListner {
     public static void main(String[] args) {
 
         BasicConfigurator.configure();
+// create a object of file listner and call thread
+        FileListner filelistner = new FileListner();
 
-        FileListner watch = new FileListner();
-        watch.threadAssigner();
+        filelistner.threadAssigner();
+
+
 
     }
 
@@ -27,13 +30,31 @@ public class FileListner {
                 e.printStackTrace();
             }
         };
-        Thread t1 = new Thread(thread1);
-        t1.start();
+
+
+        Runnable thread3 = () -> {
+            try {
+                check_Mp4();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+
+        Thread t3 = new Thread(thread3);
+        t3.start();
+
+        Thread th1 = new Thread(thread1);
+        th1.start();
+
+
+
 
     }
 
 
-    //method
+
     private void check_mp4TOmp3() throws IOException, InterruptedException {
 
         Path faxFolder = Paths.get("D:\\media\\mp4Tomp3");
@@ -59,6 +80,46 @@ public class FileListner {
 
                     } else {
                         System.out.println("File created in valid : " + fileName+" is a not supported file format");
+                    }
+
+                }
+            }
+            valid = watchKey.reset();
+
+        } while (valid);
+
+    }
+    //public void  check_Mp4(){
+      //  System.out.println("Thread 2 working");
+      //}
+
+    private void check_Mp4() throws IOException, InterruptedException {
+
+        Path faxFolder = Paths.get("D:\\media\\mp4tomkv");
+
+        WatchService watchService = FileSystems.getDefault().newWatchService();
+        faxFolder.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+        //System.out.println("Thread 2 working");
+        boolean valid = true;
+        do {
+            WatchKey watchKey = watchService.take();
+
+            for (WatchEvent event : watchKey.pollEvents()) {
+                WatchEvent.Kind kind = event.kind();
+
+                if (StandardWatchEventKinds.ENTRY_CREATE.equals(event.kind())) {
+                    String fileName = event.context().toString();
+
+                    //check the newly added file type support or not support.. only mp4 support
+                    if ( fileName.toString().endsWith(".mp4")){
+                        System.out.println("New File Added : " + fileName);
+                    //create object of Converter class and call mkv converting method
+                        Converter mkv =new Converter();
+                        mkv.mp4toMKV(fileName);
+
+
+                    } else {
+                        System.out.println("File  : " + fileName+" is a not supported. File type is not mp4");
                     }
 
                 }
